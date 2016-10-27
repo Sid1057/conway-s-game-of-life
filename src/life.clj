@@ -8,6 +8,7 @@
 
 (defn get-neis-count
   [cell]
+  {:pre [(map? cell), (contains? cell :x), (contains? cell :y), (contains? cell :z)]}
   (let [alives (atom 0)]
     (doseq [i [-1, 0, 1]
             j [-1, 0, 1]
@@ -22,6 +23,7 @@
 
 (defn should-be-alive?
   [cell]
+  {:pre [(map? cell), (contains? cell :x), (contains? cell :y), (contains? cell :z)]}
   (let [alive-neis (get-neis-count cell)]
     (cond ;alive-neis
       (= alive-neis 3) true
@@ -30,6 +32,7 @@
 
 (defn get-neis-set
   [some-set]
+  {:pre [(set? some-set), (every? map? some-set)]}
   (set (flatten 
          (for [cell (vec some-set)]
            (for [i [-1, 0, 1]
@@ -53,17 +56,3 @@
   (println @alive-set)
   (iterate-field)
   (println @alive-set))
-
-(deftest update-alive-test
-  ; (is (= (update-set #{}) #{} ))
-  ; (is (= (update-set #{{:x 0, :y 0, :z 0}, {:x 2, :y 0, :z 0}}) #{} ))
-  ; (is (= (update-set #{{:x 0, :y 0, :z 0}, {:x 0, :y 1, :z 0}, {:x 1, :y 0, :z 0}, {:x 1, :y 1, :z 0}}) 
-  ;                    #{{:x 0, :y 0, :z 0}, {:x 0, :y 1, :z 0}, {:x 1, :y 0, :z 0}, {:x 1, :y 1, :z 0}}))
-  ; (is (= (update-set #{{:x 0, :y 0, :z -1}, {:x 0, :y 0, :z 0}, {:x 0, :y 0, :z 1}}) 
-  ;                    #{{:x -1, :y 0, :z 0}, 
-  ;                      {:x 0, :y 0, :z 0}, 
-  ;                      {:x 1, :y 0, :z 0},
-  ;                      {:x 0, :y -1, :z 0},
-  ;                      {:x 0, :y 1, :z 0}})
-  ; )
-  )
